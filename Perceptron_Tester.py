@@ -1,11 +1,12 @@
 #  Matthew Buchanan
 #  Perceptron Project
 #  Intro to Neural Networks
-#  Fall 2022
+#  Fall 2023
 
 
 from csv import reader  # reader object reads a csv file line by line
 from random import sample  # used to randomly sample a list without replacement
+from random import shuffle
 from Perceptron import Perceptron  # this is the Perceptron class in the Perceptron.py file
 
 
@@ -13,7 +14,7 @@ from Perceptron import Perceptron  # this is the Perceptron class in the Percept
 ##### DATASET FUNCTIONS                                          #####
 ######################################################################
 
-# Load the CSV file containing the inputs and desired outputs
+# Load the CSV file containing the inputs and desired output
 #
 #	dataset is a 2D matrix where each row contains 1 set of inputs plus the desired output
 #		-for each row, columns 0-59 contain the inputs as floating point values
@@ -99,17 +100,17 @@ perceptron = Perceptron(bias, weights)
 
 # Step 4: Train the perceptron
 learning_rate = 0.01
-number_of_epochs = 500
+number_of_epochs = 1500
 perceptron.train(training_set, learning_rate, number_of_epochs)
 
 # Step 5: Test the trained perceptron
 predictions = perceptron.test(dataset)
 
 # Step 6: Display the test results and accuracy of the perceptron
-error_rate = 0.0
+error_count = 0
 for i in range(len(predictions)):
-    print('Actual: ' + str(predictions[i]) + '  Expected: ' + str(dataset[i][60]))
+    # print('Actual: ' + str(predictions[i]) + '  Expected: ' + str(dataset[i][60]))
     if predictions[i] != dataset[i][60]:
-        error_rate += 1.0
-error_rate = error_rate / len(dataset)
-print('\nError Rate: ' + str(round(error_rate * 100, 2)) + '%')
+        error_count += 1
+error_rate = error_count / len(dataset)
+print('\nAccuracy Rate: ' + str(round((1 - error_rate) * 100, 2)) + '%')

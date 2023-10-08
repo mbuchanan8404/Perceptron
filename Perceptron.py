@@ -1,15 +1,15 @@
 #  Matthew Buchanan
 #  Perceptron Project
 #  Intro to Neural Networks
-#  Fall 2022
+#  Fall 2023
 
 
 class Perceptron(object):
 
     # Create a new Perceptron
     #
-    # Params:	bias -	arbitrarily chosen value that affects the overall output
-    #					regardless of the inputs
+    # Params:	bias - arbitrarily chosen value that affects the overall output
+    #			regardless of the inputs
     #
     #			synaptic_weights -	list of initial synaptic weights for this Perceptron
     def __init__(self, bias, synaptic_weights):
@@ -17,12 +17,13 @@ class Perceptron(object):
         self.synaptic_weights = synaptic_weights
 
     # Activation function
-    # Quantizes the induced local field
+    # Quantize the induced local field
     #
     # Params:	z - the value of the induced local field
     #
     # Returns:	an integer that corresponds to one of the two possible output values (usually 0 or 1)
-    def activation_function(self, z):
+    @staticmethod  # static since this method doesn't reference the self attribute of the class instance
+    def activation_function(z):
         return 1 if z >= 0.0 else 0
 
     # Compute and return the weighted sum of all inputs (not including bias)
@@ -65,14 +66,21 @@ class Perceptron(object):
         # zero all the synaptic weights
         for i in range(len(self.synaptic_weights)):
             self.synaptic_weights[i] = 0.0
+        # begin training
         for epoch in range(number_of_epochs):
+            epoch_errors = 0
             for i in range(len(training_set)):
                 prediction = self.predict(training_set[i])
                 expected = training_set[i][60]
                 error = expected - prediction
-                self.bias = self.bias + learning_rate * error
-                for j in range(len(self.synaptic_weights)):
-                    self.synaptic_weights[j] = self.synaptic_weights[j] + learning_rate * error * training_set[i][j]
+                if error != 0:
+                    epoch_errors += 1
+                    self.bias += learning_rate * error  # adjust bias as well as weights by error
+                    for j in range(len(self.synaptic_weights)):
+                        self.synaptic_weights[j] += learning_rate * error * training_set[i][j]
+            # output epoch stats
+            if epoch_errors > 0:
+                print('Epoch number: ' + str(epoch) + '  Errors this epoch: ' + str(epoch_errors) + '   Bias: ' + str(self.bias))
 
     # Test this Perceptron
     #
