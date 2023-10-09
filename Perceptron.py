@@ -78,9 +78,11 @@ class Perceptron(object):
                     self.bias += learning_rate * error  # adjust bias as well as weights by error
                     for j in range(len(self.synaptic_weights)):
                         self.synaptic_weights[j] += learning_rate * error * training_set[i][j]
-            # output epoch stats
-            if epoch_errors > 0:
-                print('Epoch number: ' + str(epoch) + '  Errors this epoch: ' + str(epoch_errors) + '   Bias: ' + str(self.bias))
+            #output epoch stats and end training upon convergence
+            print('Epoch: ' + str(epoch + 1) + '  Errors: ' + str(epoch_errors) + '   Bias: ' + str(self.bias))
+            if epoch_errors == 0:
+                print('\nConverged after ' + str(epoch + 1) + ' epochs')
+                return
 
     # Test this Perceptron
     #
@@ -88,6 +90,7 @@ class Perceptron(object):
     #
     # Returns:	a collection or list containing the actual output (predictions) for each input vector
     def test(self, test_set):
+        print('\nBeginning test set')
         predictions = list()
         for i in range(len(test_set)):
             predictions.append(self.predict(test_set[i]))

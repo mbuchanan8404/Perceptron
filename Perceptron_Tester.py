@@ -6,7 +6,6 @@
 
 from csv import reader  # reader object reads a csv file line by line
 from random import sample  # used to randomly sample a list without replacement
-from random import shuffle
 from Perceptron import Perceptron  # this is the Perceptron class in the Perceptron.py file
 
 
@@ -80,8 +79,8 @@ def load_dataset(filename):
 #
 # Returns:	a matrix, or list of rows, containing only a subset of the input
 #			vectors from the entire dataset
-def create_training_set(data):
-    return sample(data, 75)
+def create_training_set(data, set_size):
+    return sample(data, set_size)
 
 ######################################################################
 ##### CREATE A PERCEPTRON, TRAIN IT, AND TEST IT                 #####
@@ -91,7 +90,7 @@ def create_training_set(data):
 dataset = load_dataset('sonar_all-data.csv')
 
 # Step 2: Create the training set
-training_set = create_training_set(dataset)
+training_set = create_training_set(dataset, 75)  # Set the size of the training set here
 
 # Step 3: Create the perceptron
 bias = 1.0
@@ -100,7 +99,7 @@ perceptron = Perceptron(bias, weights)
 
 # Step 4: Train the perceptron
 learning_rate = 0.01
-number_of_epochs = 1500
+number_of_epochs = 1000000  # The training function will return upon convergence or run 1,000,000 epochs
 perceptron.train(training_set, learning_rate, number_of_epochs)
 
 # Step 5: Test the trained perceptron
