@@ -90,7 +90,7 @@ def create_training_set(data, set_size):
 dataset = load_dataset('sonar_all-data.csv')
 
 # Step 2: Create the training set
-training_set = create_training_set(dataset, 75)  # Set the size of the training set here
+training_set = create_training_set(dataset, 125)  # Set the size of the training set here
 
 # Step 3: Create the perceptron
 bias = 1.0
@@ -99,7 +99,7 @@ perceptron = Perceptron(bias, weights)
 
 # Step 4: Train the perceptron
 learning_rate = 0.01
-number_of_epochs = 1000000  # The training function will return upon convergence or run 1,000,000 epochs
+number_of_epochs = 1000000  # The training function will either return upon convergence or run for 1,000,000 epochs
 perceptron.train(training_set, learning_rate, number_of_epochs)
 
 # Step 5: Test the trained perceptron
@@ -108,7 +108,6 @@ predictions = perceptron.test(dataset)
 # Step 6: Display the test results and accuracy of the perceptron
 error_count = 0
 for i in range(len(predictions)):
-    # print('Actual: ' + str(predictions[i]) + '  Expected: ' + str(dataset[i][60]))
     if predictions[i] != dataset[i][60]:
         error_count += 1
 error_rate = error_count / len(dataset)

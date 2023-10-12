@@ -4,8 +4,10 @@
 #  Fall 2023
 
 
-class Perceptron(object):
+from random import shuffle
 
+
+class Perceptron(object):
     # Create a new Perceptron
     #
     # Params:	bias - arbitrarily chosen value that affects the overall output
@@ -63,26 +65,24 @@ class Perceptron(object):
     #
     # Returns:	no return value
     def train(self, training_set, learning_rate, number_of_epochs):
-        # zero all the synaptic weights
         for i in range(len(self.synaptic_weights)):
             self.synaptic_weights[i] = 0.0
-        # begin training
         for epoch in range(number_of_epochs):
-            epoch_errors = 0
+            errors_this_epoch = 0  # used to detect convergence (no errors in an epoch)
             for i in range(len(training_set)):
                 prediction = self.predict(training_set[i])
                 expected = training_set[i][60]
                 error = expected - prediction
                 if error != 0:
-                    epoch_errors += 1
+                    errors_this_epoch += 1
                     self.bias += learning_rate * error  # adjust bias as well as weights by error
                     for j in range(len(self.synaptic_weights)):
                         self.synaptic_weights[j] += learning_rate * error * training_set[i][j]
-            #output epoch stats and end training upon convergence
-            print('Epoch: ' + str(epoch + 1) + '  Errors: ' + str(epoch_errors) + '   Bias: ' + str(self.bias))
-            if epoch_errors == 0:
+            print('Epoch: ' + str(epoch + 1) + '  Errors: ' + str(errors_this_epoch) + '   Bias: ' + str(self.bias))
+            if errors_this_epoch == 0:
                 print('\nConverged after ' + str(epoch + 1) + ' epochs')
                 return
+            shuffle(training_set)  # shuffle the training set after each epoch
 
     # Test this Perceptron
     #
