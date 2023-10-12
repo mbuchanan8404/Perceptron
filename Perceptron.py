@@ -65,8 +65,6 @@ class Perceptron(object):
     #
     # Returns:	no return value
     def train(self, training_set, learning_rate, number_of_epochs):
-        for i in range(len(self.synaptic_weights)):
-            self.synaptic_weights[i] = 0.0
         for epoch in range(number_of_epochs):
             errors_this_epoch = 0  # used to detect convergence (no errors in an epoch)
             for i in range(len(training_set)):
@@ -90,8 +88,7 @@ class Perceptron(object):
     #
     # Returns:	a collection or list containing the actual output (predictions) for each input vector
     def test(self, test_set):
-        print('\nBeginning test set')
         predictions = list()
-        for i in range(len(test_set)):
-            predictions.append(self.predict(test_set[i]))
+        for row in test_set:
+            predictions.append(self.predict(row))
         return predictions

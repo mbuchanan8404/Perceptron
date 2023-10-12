@@ -90,11 +90,11 @@ def create_training_set(data, set_size):
 dataset = load_dataset('sonar_all-data.csv')
 
 # Step 2: Create the training set
-training_set = create_training_set(dataset, 125)  # Set the size of the training set here
+training_set = create_training_set(dataset, 104)  # Set the size of the training set here
 
 # Step 3: Create the perceptron
 bias = 1.0
-weights = list(0.1 for i in range(60))
+weights = list(0.0 for i in range(60))
 perceptron = Perceptron(bias, weights)
 
 # Step 4: Train the perceptron
