@@ -90,7 +90,9 @@ def create_training_set(data, set_size):
 dataset = load_dataset('sonar_all-data.csv')
 
 # Step 2: Create the training set
-training_set = create_training_set(dataset, 104)  # Set the size of the training set here
+# The formula for training set size magnitude is N = O(W/E), for N = Sample size, W = # of parameters, and E = error rate
+# So, for a desired 15% error rate and 61 parameters need 407 samples, but we only have 206 training samples
+training_set = create_training_set(dataset, 175)  # Set the size of the training set here
 
 # Step 3: Create the perceptron
 bias = 1.0
@@ -98,7 +100,9 @@ weights = list(0.0 for i in range(60))
 perceptron = Perceptron(bias, weights)
 
 # Step 4: Train the perceptron
-learning_rate = 0.01
+# The formula for learning rate parameter is n = 1/sqrt(M) for M = number of synaptic connections to the neuron
+learning_rate = 1/(len(dataset[0]) ** (1/2))
+print('Learning Rate: ' + str(learning_rate))
 number_of_epochs = 1000000  # The training function will either return upon convergence or run for 1,000,000 epochs
 perceptron.train(training_set, learning_rate, number_of_epochs)
 
@@ -111,4 +115,4 @@ for i in range(len(predictions)):
     if predictions[i] != dataset[i][60]:
         error_count += 1
 error_rate = error_count / len(dataset)
-print('\nAccuracy Rate: ' + str(round((1 - error_rate) * 100, 2)) + '%')
+print('\nAccuracy Rate: ' + str(round((1.0 - error_rate) * 100, 2)) + '%')
